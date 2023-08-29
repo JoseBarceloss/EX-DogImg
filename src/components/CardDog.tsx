@@ -5,6 +5,7 @@ import { DogType } from './DogType';
 function CardDog() {
   const [dog, setDog] = useState<DogType>();
   const [raça, setRaça] = useState<string>('');
+  const [showRaça, setShowRaça] = useState<boolean>(false);
 
   useEffect(() => {
     const saveUrl = localStorage.getItem('saveUrl');
@@ -24,8 +25,6 @@ function CardDog() {
       const raçaNome = urlParts[urlParts.length - 2];
       // Define a raça no estado "breed"
       setRaça(raçaNome);
-
-      alert(`${raçaNome}`);
     }
   }, [dog]);
 
@@ -45,12 +44,28 @@ function CardDog() {
       });
   };
 
+  const toggleRaça = () => {
+    setShowRaça(!showRaça);
+  };
+
   if (!dog) return <div><p>Loading...</p></div>;
 
   return (
     <div>
       <img src={ `${dog?.message}` } alt="Doguinho aleatório" />
       <button onClick={ NewImg }>Novo doguinho!</button>
+
+      <button onClick={ toggleRaça }>
+        {showRaça ? 'Esconder Raça' : 'Mostrar Raça'}
+      </button>
+
+      {showRaça && (
+        <p>
+          Raça:
+          {' '}
+          {raça}
+        </p>
+      )}
     </div>
   );
 }
